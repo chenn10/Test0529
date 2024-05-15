@@ -11,6 +11,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 class StuDataAdapter extends RecyclerView.Adapter<StuDataAdapter.ViewHolder> {
 
     private ImageView img;
@@ -34,7 +36,8 @@ class StuDataAdapter extends RecyclerView.Adapter<StuDataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StuData stuData = stuDataList.get(position);
-        img.setImageResource(stuData.getId());
+//        img.setImageResource(stuData.getId());
+        Glide.with(holder.itemView).load(stuData.getImageUrl()).into(img);
         tvHeight1.setText(stuData.getHeight());
         tvName1.setText(stuData.getName());
 
