@@ -1,6 +1,7 @@
 package com.example.test0508;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,7 +46,19 @@ class StuDataAdapter extends RecyclerView.Adapter<StuDataAdapter.ViewHolder> {
         Glide.with(holder.itemView).load(stuData.getImageUrl()).into(img);
         tvHeight1.setText(stuData.getHeight());
         tvName1.setText(stuData.getName());
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), UpdateActivity.class);
+                intent.putExtra("name", stuData.getName());
+                intent.putExtra("height", stuData.getHeight());
+                intent.putExtra("url", stuData.getImageUrl());
+                //刪除點擊的 item
+                stuDataList.remove(position);
+                notifyItemRemoved(position);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

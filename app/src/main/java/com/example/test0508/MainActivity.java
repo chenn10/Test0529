@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     //建立一個 ActivityResultContract 可以接收 addDataActivity 的資料
     private ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                Log.d("DDDDD", "onActivityResult: " + result.getResultCode());
                 if (result != null) {
                     Intent data = result.getData();
                     String name = data.getStringExtra("name");
