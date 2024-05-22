@@ -1,5 +1,7 @@
 package com.example.test0508;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -17,6 +21,21 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<StuData> stuDataList;
     private StuDataAdapter adapter;
+
+    //建立一個 ActivityResultContract 可以接收 addDataActivity 的資料
+    private ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result != null) {
+                    Intent data = result.getData();
+                    String name = data.getStringExtra("name");
+                    String height = data.getStringExtra("height");
+                    String url = data.getStringExtra("url");
+                    Log.d("DDDDD", "name: " + name + " height: " + height + " url: " + url);
+                    stuDataList.add(new StuData(url, name, height));
+                    adapter.notifyDataSetChanged();
+                }
+            });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void addData(View view) {
         Intent intent = new Intent(this, AddDataActivity.class);
-        startActivityForResult(intent, 1);
+//        startActivityForResult(intent, 1);
+        activityResultLauncher.launch(intent);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            String name = data.getStringExtra("name");
-            String height = data.getStringExtra("height");
-            String url = data.getStringExtra("url");
-            stuDataList.add(new StuData(url, name, height));
-            adapter.notifyDataSetChanged();
+
     }
 }
