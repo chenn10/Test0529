@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("DDDDD", "name: " + name + " height: " + height + " url: " + url);
                     stuDataList.set(position,new StuData(url, name, height));
                     adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
 
                 }
                 Log.d("DDDDD", "onItemClick: " +stuDataList.size());

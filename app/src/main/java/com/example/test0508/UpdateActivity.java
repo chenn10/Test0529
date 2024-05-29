@@ -41,7 +41,7 @@ public class UpdateActivity extends AppCompatActivity {
         intent.putExtra("name", name);
         intent.putExtra("height", height);
         intent.putExtra("url", url);
-        intent.putExtra("position", position);
+        intent.putExtra("position", id);
         setResult(100, intent);
         finish();
     }
