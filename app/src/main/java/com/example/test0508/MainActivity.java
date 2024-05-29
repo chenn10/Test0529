@@ -61,11 +61,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        adapter.setOnItemClickListener(new StuDataAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+                StuData stuData = stuDataList.get(position);
+                intent.putExtra("name", stuData.getName());
+                intent.putExtra("height", stuData.getHeight());
+                intent.putExtra("url", stuData.getImageUrl());
+                activityResultLauncher.launch(intent);
+            }
+        }};
     }
+
 
     public void addData(View view) {
         Intent intent = new Intent(this, AddDataActivity.class);
-//        startActivityForResult(intent, 1);
+       startActivityForResult(intent, 1);
         activityResultLauncher.launch(intent);
 
     }
