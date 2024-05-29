@@ -26,15 +26,28 @@ public class MainActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 Log.d("DDDDD", "onActivityResult: " + result.getResultCode());
-                if (result != null) {
+                if (result.getResultCode() == 200) {
                     Intent data = result.getData();
                     String name = data.getStringExtra("name");
                     String height = data.getStringExtra("height");
                     String url = data.getStringExtra("url");
                     Log.d("DDDDD", "name: " + name + " height: " + height + " url: " + url);
                     stuDataList.add(new StuData(url, name, height));
-                    adapter.notifyDataSetChanged();
+
                 }
+                if (result.getResultCode() == 100){
+                    Intent data = result.getData();
+                    String name = data.getStringExtra("name");
+                    String height = data.getStringExtra("height");
+                    String url = data.getStringExtra("url");
+                    int position = data.getIntExtra("position", 0);
+                    Log.d("DDDDD", "name: " + name + " height: " + height + " url: " + url);
+                    stuDataList.set(position,new StuData(url, name, height));
+                    adapter.notifyDataSetChanged();
+
+                }
+                Log.d("DDDDD", "onItemClick: " +stuDataList.size());
+
             });
 
 
@@ -69,9 +82,15 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("name", stuData.getName());
                 intent.putExtra("height", stuData.getHeight());
                 intent.putExtra("url", stuData.getImageUrl());
+                intent.putExtra("position", position);
+                Log.d("DDDDD", "onItemClick: " +position);
+                Log.d("DDDDD", "onItemClick: " +stuDataList.size());
+
+                stuDataList.remove(position);
+                Log.d("DDDDD", "onItemClick: " +stuDataList.size());
                 activityResultLauncher.launch(intent);
             }
-        }};
+        });
     }
 
 

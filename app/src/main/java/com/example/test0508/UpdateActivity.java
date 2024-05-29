@@ -33,6 +33,7 @@ public class UpdateActivity extends AppCompatActivity {
 
     public void goBack(View view) {
         Intent intent = getIntent();
+        int id = intent.getIntExtra("position", 0);
         String name = addName.getText().toString();
         String height = addHeight.getText().toString();
         String url = addUrl.getText().toString();
@@ -40,7 +41,8 @@ public class UpdateActivity extends AppCompatActivity {
         intent.putExtra("name", name);
         intent.putExtra("height", height);
         intent.putExtra("url", url);
-        setResult(RESULT_OK, intent);
+        intent.putExtra("position", position);
+        setResult(100, intent);
         finish();
     }
 }
